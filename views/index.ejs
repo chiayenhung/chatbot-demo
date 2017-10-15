@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"></script>
+		<title>
+			ChatBot Demo
+		</title>
+		<link rel="stylesheet" type="text/css" href="/client.css">
+	</head>
+	<body>
+		<h1>
+			ChatBot Demo
+		</h1>
+		<button id="start-chat-btn">Start Chat</button>
+		<div id="bot"/>
+		<script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+		<script type="text/javascript">
+		  (function() {
+            var secret = "<%= secret %>";
+
+            function uuidv4() {
+              return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+              });
+            }
+
+			function setupBot(token) {
+
+			  botConnection = new BotChat.DirectLine({
+				token: token
+			  });
+
+			  BotChat.App({
+				botConnection: botConnection,
+				user: { id: uuidv4(), name: "User" },
+				bot: { id: "botid" }
+			  }, document.getElementById("bot"));
+
+			  botConnection.activity$
+				.filter(function (activity) {
+				  // return activity.type === 'event' && activity.name === 'changeBackground';
+				  return activity.type === 'endOfConversation';
+				})
+				.subscribe(function (activity) {
+				  setTimeout(function() {
+					$("#bot").empty();
+				  }, 5000);
+				});
+			}
+
+			document.getElementById("start-chat-btn").onclick = function() {
+			  $.ajax({
+				url: "https://webchat.botframework.com/api/tokens",
+				headers: {
+				  Authorization: "BotConnector " + secret
+				}
+			  })
+				.then(function(token) {
+				  setupBot(token);
+				})
+				.catch(function(error) {
+				  console.error(error);
+				})
+			}
+		  })();
+		</script>
+	</body>
+</html>

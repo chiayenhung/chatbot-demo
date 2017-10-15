@@ -1,0 +1,23 @@
+{
+  "name": "chatbot-demo",
+  "version": "1.0.0",
+  "description": "ChatBot Demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chiayenhung/chatbot-demo.git"
+  },
+  "author": "Chia-Yen Hung",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/chiayenhung/chatbot-demo/issues"
+  },
+  "homepage": "https://github.com/chiayenhung/chatbot-demo#readme",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.16.2"
+  }
+}
